@@ -16,7 +16,7 @@
 
 ### Инструменты и дополнительные материалы, которые пригодятся для выполнения задания
 
-  1. Описание Secret.
+  1. ![Описание Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
 
   2. Описание ConfigMap.
 
