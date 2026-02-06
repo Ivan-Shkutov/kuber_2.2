@@ -34,21 +34,21 @@
 
   2. применяем
 
-         kubectl apply -f configmap.yaml
+    kubectl apply -f configmap.yaml
 
   3. производим проверку
     
-          kubectl get configmap
+    kubectl get configmap
 
   4. в результате создается Pod с двумя контейнерами, ConfigMap монтируется в volume, файл index.html подменяет страницу nginx
 
   5. применяем
     
-         kubectl apply -f deployment.yaml
+    kubectl apply -f deployment.yaml
 
   6. проверяем все запущенные поды
 
-         kubectl get pods
+    kubectl get pods
 
   7. видим, что запущены под с контейнерами nginx и multitool
 
