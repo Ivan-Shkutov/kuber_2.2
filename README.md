@@ -87,13 +87,65 @@
 
 ### Решение:
 
+  1. создаем ConfigMap, который будет монтироваться в /usr/share/nginx/html/index.html внутри контейнера
 
+  2. применяем
 
+    kubectl apply -f configmap.yaml
+    kubectl get configmap
+    
+ConfigMap хранит файл index.html и мы можем изменять страницу, меняя ConfigMap, не трогая контейнер
 
+  3. контейнер будет использовать образ Nginx, а страницу подключаем через volume
 
+  4. применяем
 
+    kubectl apply -f deployment.yaml
+    kubectl get pods
 
+  5. volumeMounts подключает ConfigMap к контейнеру, subPath: index.html позволяет примонтировать только файл, а не весь ConfigMap
 
+  6. чтобы Ingress мог направлять трафик в Pod, создаем ClusterIP Service
+
+    kubectl apply -f service.yaml
+    kubectl get svc
+
+  7. ClusterIP Service делает Pod доступным внутри кластера, Ingress будет проксировать трафик через этот Service
+
+  8. создаем самоподписной SSL-сертификат, используем OpenSSL для генерации ключа и сертификата
+
+  9. создаем Secret для TLS
+
+  10. Secret хранит сертификат и ключ, TLS Ingress будет ссылаться на этот Secret для HTTPS
+
+  11. создаем Ingress с TLS
+
+    microk8s enable ingress
+
+  12. применяем
+
+    kubectl apply -f ingress.yaml
+    kubectl get ingress
+
+  13. ingressClassName: nginx указывает, что этот Ingress будет обрабатываться Nginx Controller, tls — указывает секрет с сертификатом, rules — маршрутизация по Host и path к Service
+
+  14. настраиваем hosts для локального доступа
+
+    добавляем запись в /etc/hosts, чтобы браузер понимал myapp.local
+
+    192.168.49.2 myapp.local
+
+  15. проверяем работу приложения
+
+    curl -k https://myapp.local
+    
+  16. проверка
+
+    kubectl get pods - Pod запущен, контейнер работает
+    kubectl get svc - Service доступен
+    kubectl get ingress - Ingress подключен, адрес указан.
+    kubectl get secrets - TLS Secret есть.
+    kubectl describe ingress - убедиться, что нет ошибок и TLS подключен.
 
 ![4](https://github.com/Ivan-Shkutov/kuber_2.2/blob/main/4.png)
 
