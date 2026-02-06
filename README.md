@@ -30,11 +30,37 @@
 
 ### Решение:
 
+  1. создаём ConfigMap, в него добавляем index.html
 
+  2. применяем
 
+         kubectl apply -f configmap.yaml
 
+  3. производим проверку
+    
+          kubectl get configmap
 
+  4. в результате создается Pod с двумя контейнерами, ConfigMap монтируется в volume, файл index.html подменяет страницу nginx
 
+  5. применяем
+    
+         kubectl apply -f deployment.yaml
+
+  6. проверяем все запущенные поды
+
+         kubectl get pods
+
+  7. видим, что запущены под с контейнерами nginx и multitool
+
+  8. применяем
+
+    kubectl apply -f service.yaml
+
+  9. проверяем
+
+    kubectl get svc
+
+  10. проверяем curl http://192.168.49.2:30007
 
 
 ![1](https://github.com/Ivan-Shkutov/kuber_2.2/blob/main/1.png)
